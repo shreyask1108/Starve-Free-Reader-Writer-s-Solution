@@ -1,0 +1,45 @@
+Semaphore *mutex = new Semaphore(1);
+Semaphore *read_write_mutex = new Semaphore(1);
+Semaphore *order = new Semaphore(1);
+
+int read_count = 0;
+
+
+do{
+    
+    // Entry Section
+    wait(order);
+    wait(mutex);
+    read__count=read_count+1;
+    if(read__count = 1){
+        wait(read_write_mutex);
+    } 
+    signal(mutex);
+    signal(order);
+
+    //Critical Section
+
+   // End Section
+   wait(mutex);
+   read_count=read__count-1;
+   if(read__count = 0){
+       signal(read_write_mutex);
+   } 
+   signal(mutex);
+
+   // Remainder Section
+
+}while(true);
+
+do{
+    // Entry Section
+    wait(read_write_mutex);
+    
+    //Critical Section
+
+   // End Section
+   signal(read_write_mutex);
+
+   // Remainder Section
+
+}while(true);
